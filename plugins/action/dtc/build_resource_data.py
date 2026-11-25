@@ -402,9 +402,11 @@ class ResourceDataBuilder:
         ])
         environment.loader = new_loader
         old_vars = templar.available_variables
+        render_vars = self.task_vars.copy()
+        render_vars['omit'] = '__omit_place_holder__'
 
         try:
-            templar.available_variables = self.task_vars
+            templar.available_variables = render_vars
 
             rendered = templar.template(
                 template_content,
